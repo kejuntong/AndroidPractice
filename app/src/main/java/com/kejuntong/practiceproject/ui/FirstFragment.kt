@@ -39,15 +39,10 @@ class FirstFragment : Fragment() {
         viewModel =  ViewModelProvider(requireActivity())[FirstViewModel::class.java]
 
         // testing here
-        viewModel.getTestData().observe(viewLifecycleOwner) {
+        viewModel.retrieveTodoList()
+        viewModel.getTodoList().observe(viewLifecycleOwner) {
             Log.d("kejun test", "kejun test, observe test data in FirstFragment, $it")
         }
-        /*
-        * If you called this method multiple times before a main thread executed a posted task, only
-        * the last value would be dispatched.
-        */
-        viewModel.setTestData(1)
-        viewModel.setTestData(2)
 
         val testButton: Button = binding.testButton
         testButton.setOnClickListener {

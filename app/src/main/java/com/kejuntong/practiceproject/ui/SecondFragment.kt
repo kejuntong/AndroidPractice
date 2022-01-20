@@ -34,7 +34,8 @@ class SecondFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[FirstViewModel::class.java]
 
         // testing here
-        viewModel.getTestData().observe(viewLifecycleOwner) {
+        // since it's a same instance of view model, no need to call retrieve again
+        viewModel.getTodoList().observe(viewLifecycleOwner) {
             Log.d("kejun test", "kejun test, observe test data in SecondFragment, $it")
         }
     }
