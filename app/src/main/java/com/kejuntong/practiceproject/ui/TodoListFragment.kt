@@ -1,33 +1,31 @@
 package com.kejuntong.practiceproject.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import com.kejuntong.practiceproject.R
-import com.kejuntong.practiceproject.databinding.FragmentFirstBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.kejuntong.practiceproject.databinding.FragmentTodoListBinding
 import com.kejuntong.practiceproject.viewmodel.FirstViewModel
 
-class FirstFragment : Fragment() {
+class TodoListFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentTodoListBinding? = null
     // only valid between onCreate and onDestroy
     private val binding
         get() = _binding!!
 
     private lateinit var viewModel: FirstViewModel
+    private lateinit var adapter: TodoListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentTodoListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,16 +36,19 @@ class FirstFragment : Fragment() {
         // until activity finishes
         viewModel =  ViewModelProvider(requireActivity())[FirstViewModel::class.java]
 
-        // testing here
-        viewModel.retrieveTodoList()
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = TodoListAdapter(listOf())
+        binding.recyclerView.adapter = adapter
         viewModel.getTodoList().observe(viewLifecycleOwner) {
-            Log.d("kejun test", "kejun test, observe test data in FirstFragment, $it")
+            adapter.refresh(it)
         }
 
-        val testButton: Button = binding.testButton
-        testButton.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.navigation_second)
-        }
+        viewModel.retrieveTodoList()
+
+//        val testButton: Button = binding.testButton
+//        testButton.setOnClickListener {
+//            Navigation.findNavController(binding.root).navigate(R.id.navigation_second)
+//        }
     }
 
     /*
