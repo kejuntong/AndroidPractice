@@ -10,5 +10,5 @@ interface JsonPlaceholderApis {
     fun getTodoList(): Call<List<TodoItem>>
 
     @GET("todos/{todoItemId}")
-    fun getTodoItemDetails(@Path("todoItemId") id: Int): Call<TodoItem>
+    fun getTodoItemDetails(@Path("todoItemId") id: Int): Call<TodoItemDetails>
 }

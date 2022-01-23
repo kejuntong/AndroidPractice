@@ -7,36 +7,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.kejuntong.practiceproject.databinding.FragmentSecondBinding
-import com.kejuntong.practiceproject.viewmodel.FirstViewModel
+import com.kejuntong.practiceproject.databinding.FragmentTodoDetailsBinding
+import com.kejuntong.practiceproject.viewmodel.TodoListViewModel
 
-class SecondFragment : Fragment() {
+class TodoDetailsFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: FragmentTodoDetailsBinding? = null
     // only valid between onCreate and onDestroy
     private val binding
         get() = _binding!!
 
-    private lateinit var viewModel: FirstViewModel
+    private lateinit var todoListViewModel: TodoListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentTodoDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // this view model should be the same instance of view model that was created in
         // in FirstFragment
-        viewModel = ViewModelProvider(requireActivity())[FirstViewModel::class.java]
-
-        // testing here
-        // since it's a same instance of view model, no need to call retrieve again
-        viewModel.getTodoList().observe(viewLifecycleOwner) {
-            Log.d("kejun test", "kejun test, observe test data in SecondFragment, $it")
+        todoListViewModel = ViewModelProvider(requireActivity())[TodoListViewModel::class.java]
+        todoListViewModel.getSelectedItem().observe(viewLifecycleOwner) {
+            binding.textTitle.text = it.title
+            binding.textStatus.text = if(it.completed) "finished" else "TODO"
         }
     }
 

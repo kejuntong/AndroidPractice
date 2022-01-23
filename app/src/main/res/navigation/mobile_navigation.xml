@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_first">
+    app:startDestination="@+id/navigation_todo_list">
 
     <fragment
-        android:id="@+id/navigation_first"
+        android:id="@+id/navigation_todo_list"
         android:name="com.kejuntong.practiceproject.ui.TodoListFragment"
         tools:layout="@layout/fragment_todo_list" />
 
     <fragment
-        android:id="@+id/navigation_second"
-        android:name="com.kejuntong.practiceproject.ui.SecondFragment"
-        tools:layout="@layout/fragment_second" />
+        android:id="@+id/navigation_todo_details"
+        android:name="com.kejuntong.practiceproject.ui.TodoDetailsFragment"
+        tools:layout="@layout/fragment_todo_details" />
 
 </navigation>

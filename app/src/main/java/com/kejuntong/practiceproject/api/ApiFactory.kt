@@ -14,11 +14,15 @@ object ApiFactory {
             .build()
     }
 
-    private val todoListApi by lazy {
+    private val api by lazy {
         retrofit.create(JsonPlaceholderApis::class.java)
     }
 
     internal fun getTodoList(): Call<List<TodoItem>> {
-        return todoListApi.getTodoList()
+        return api.getTodoList()
+    }
+
+    internal fun getTodoListDetails(itemId: Int): Call<TodoItemDetails> {
+        return api.getTodoItemDetails(itemId)
     }
 }

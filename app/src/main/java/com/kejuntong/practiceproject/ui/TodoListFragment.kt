@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kejuntong.practiceproject.R
+import com.kejuntong.practiceproject.api.TodoItem
 import com.kejuntong.practiceproject.databinding.FragmentTodoListBinding
-import com.kejuntong.practiceproject.viewmodel.FirstViewModel
+import com.kejuntong.practiceproject.viewmodel.TodoListViewModel
+
 
 class TodoListFragment : Fragment() {
 
@@ -17,7 +22,7 @@ class TodoListFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private lateinit var viewModel: FirstViewModel
+    private lateinit var viewModel: TodoListViewModel
     private lateinit var adapter: TodoListAdapter
 
     override fun onCreateView(
@@ -34,21 +39,26 @@ class TodoListFragment : Fragment() {
         // onActivityCreated is deprecate, so initialize / get the view model here
         // use requireActivity() to get Activity!! as lifecycle owner so that it retains
         // until activity finishes
-        viewModel =  ViewModelProvider(requireActivity())[FirstViewModel::class.java]
+        viewModel =  ViewModelProvider(requireActivity())[TodoListViewModel::class.java]
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = TodoListAdapter(listOf())
+        adapter.setOnItemClickListener(object : TodoListAdapter.OnItemClickListener {
+            override fun onItemClicked(todoItem: TodoItem) {
+                viewModel.selectItem(todoItem)
+                Navigation.findNavController(binding.root).navigate(R.id.navigation_todo_details)
+            }
+        })
         binding.recyclerView.adapter = adapter
+
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+
         viewModel.getTodoList().observe(viewLifecycleOwner) {
             adapter.refresh(it)
         }
 
         viewModel.retrieveTodoList()
-
-//        val testButton: Button = binding.testButton
-//        testButton.setOnClickListener {
-//            Navigation.findNavController(binding.root).navigate(R.id.navigation_second)
-//        }
     }
 
     /*

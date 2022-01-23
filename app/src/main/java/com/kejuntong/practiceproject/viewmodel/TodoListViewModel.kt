@@ -10,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FirstViewModel : ViewModel() {
+class TodoListViewModel : ViewModel() {
 
     private val todoListLiveData: MutableLiveData<List<TodoItem>> = MutableLiveData()
     internal fun getTodoList(): LiveData<List<TodoItem>> = todoListLiveData
@@ -22,7 +22,6 @@ class FirstViewModel : ViewModel() {
                 response: Response<List<TodoItem>>
             ) {
                 response.body()?.apply {
-                    Log.w(TAG, "retrieveTodoList success - ${this[0].title}")
                     todoListLiveData.postValue(this)
                 }
             }
@@ -33,7 +32,14 @@ class FirstViewModel : ViewModel() {
         })
     }
 
+    private val selectedItemLiveData: MutableLiveData<TodoItem> = MutableLiveData()
+    internal fun getSelectedItem(): LiveData<TodoItem> = selectedItemLiveData
+
+    internal fun selectItem(item: TodoItem) {
+        selectedItemLiveData.postValue(item)
+    }
+
     companion object {
-        private val TAG = FirstViewModel::class.java.simpleName
+        private val TAG = TodoListViewModel::class.java.simpleName
     }
 }
