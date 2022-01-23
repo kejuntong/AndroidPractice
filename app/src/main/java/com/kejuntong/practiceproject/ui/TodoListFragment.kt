@@ -14,7 +14,6 @@ import com.kejuntong.practiceproject.api.TodoItem
 import com.kejuntong.practiceproject.databinding.FragmentTodoListBinding
 import com.kejuntong.practiceproject.viewmodel.TodoListViewModel
 
-
 class TodoListFragment : Fragment() {
 
     private var _binding: FragmentTodoListBinding? = null

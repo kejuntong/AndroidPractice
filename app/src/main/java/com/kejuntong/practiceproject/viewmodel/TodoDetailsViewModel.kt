@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kejuntong.practiceproject.api.ApiFactory
 import com.kejuntong.practiceproject.api.TodoItemDetails
+import com.kejuntong.practiceproject.api.UserDetails
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +29,23 @@ class TodoDetailsViewModel : ViewModel() {
 
             override fun onFailure(call: Call<TodoItemDetails>, t: Throwable) {
                 Log.w(TAG, "todo item details call failure, ${t.message}")
+            }
+        })
+    }
+
+    private val userDetailsLiveData = MutableLiveData<UserDetails>()
+    internal fun getUserDetails(): LiveData<UserDetails> = userDetailsLiveData
+
+    internal fun retrieveUserDetails(userId: Int) {
+        ApiFactory.getUserDetails(userId).enqueue(object : Callback<UserDetails> {
+            override fun onResponse(call: Call<UserDetails>, response: Response<UserDetails>) {
+                response.body()?.apply {
+                    userDetailsLiveData.postValue(this)
+                }
+            }
+
+            override fun onFailure(call: Call<UserDetails>, t: Throwable) {
+                Log.w(TAG, "user details call failure, ${t.message}")
             }
         })
     }

@@ -25,4 +25,8 @@ object ApiFactory {
     internal fun getTodoListDetails(itemId: Int): Call<TodoItemDetails> {
         return api.getTodoItemDetails(itemId)
     }
+
+    internal fun getUserDetails(userId: Int): Call<UserDetails> {
+        return api.getUserDetails(userId)
+    }
 }
