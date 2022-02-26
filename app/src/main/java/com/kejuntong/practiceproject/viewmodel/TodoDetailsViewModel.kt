@@ -1,6 +1,7 @@
 package com.kejuntong.practiceproject.viewmodel
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,13 +12,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TodoDetailsViewModel : ViewModel() {
+open class TodoDetailsViewModel : ViewModel() {
 
     private val todoItemDetailsLiveData = MutableLiveData<TodoItemDetails>()
     internal fun getTodoItemDetails(): LiveData<TodoItemDetails> = todoItemDetailsLiveData
 
+    @VisibleForTesting
+    internal open fun getTodoListCall(itemId: Int): Call<TodoItemDetails> {
+        return ApiFactory.getTodoListDetails(itemId)
+    }
+
     internal fun retrieveTodoItemDetails(itemId: Int) {
-        ApiFactory.getTodoListDetails(itemId).enqueue(object : Callback<TodoItemDetails>{
+        getTodoListCall(itemId).enqueue(object : Callback<TodoItemDetails>{
             override fun onResponse(
                 call: Call<TodoItemDetails>,
                 response: Response<TodoItemDetails>
